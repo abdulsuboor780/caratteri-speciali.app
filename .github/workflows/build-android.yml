@@ -12,10 +12,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: 'npm'
@@ -27,15 +27,15 @@ jobs:
         run: npm run build
 
       - name: Setup Java JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
-      - name: Add Capacitor Android Platform
+      - name: Sync Capacitor Android Platform
         run: |
           npx cap add android || true
           npx cap sync android
@@ -44,12 +44,12 @@ jobs:
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon
 
-      - name: Build Release Bundle AAB (For Google Play Store)
+      - name: Build Play Store Bundle AAB
         run: |
           cd android
-          ./gradlew bundleRelease || ./gradlew bundleDebug
+          ./gradlew bundleRelease --no-daemon || ./gradlew bundleDebug --no-daemon
 
       - name: Upload Testing APK
         uses: actions/upload-artifact@v4
