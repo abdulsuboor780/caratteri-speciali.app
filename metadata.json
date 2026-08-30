@@ -1,0 +1,6 @@
+{
+  "name": "Caratteri Speciali",
+  "description": "App mobile completa per generare font speciali, simboli Unicode, decorazioni per social network, bio e nickname.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
