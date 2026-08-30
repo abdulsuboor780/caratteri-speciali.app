@@ -41,11 +41,11 @@ jobs:
           npm ci
           npm run build
 
-      - name: Configura Java JDK
+      - name: Configura Java JDK 21
         uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
-          java-version: '17'
+          java-version: '21'
 
       - name: Inizializza Capacitor Android
         run: |
