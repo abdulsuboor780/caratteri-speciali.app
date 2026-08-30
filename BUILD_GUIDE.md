@@ -29,12 +29,12 @@ jobs:
 
     steps:
       - name: Checkout del codice
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Configura Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Installa dipendenze e compila Web
         run: |
@@ -42,7 +42,7 @@ jobs:
           npm run build
 
       - name: Configura Java JDK
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
