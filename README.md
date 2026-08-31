@@ -1,33 +1,33 @@
 # Caratteri Speciali
 
-**Caratteri Speciali** is an Italian Android app for finding, copying, and using special characters, symbols, fonts, and decorative text.
+**Caratteri Speciali** è un'app Android italiana per trovare, copiare e utilizzare caratteri speciali, simboli, font e testi decorativi.
 
-Whether you need stylish text for social media, messages, profiles, usernames, or everyday writing, the app makes it easy to find the characters you need and copy them instantly.
+Che tu abbia bisogno di testo elegante per i social media, messaggi, profili, nomi utente o per la scrittura quotidiana, l'app ti permette di trovare facilmente i caratteri che cerchi e copiarli con un semplice tocco.
 
-## 🌐 Official Website
+## 🌐 Sito ufficiale
 
-Visit the **[Caratteri Speciali](https://caratterspeciali.it/)** website to explore special characters, symbols, fonts, and other useful text tools online.
+Visita **[Caratteri Speciali](https://caratterspeciali.it/)** per scoprire caratteri speciali, simboli, font e altri strumenti di testo online.
 
-## ✨ Features
+## ✨ Funzionalità
 
-* 🔤 Browse a wide range of special characters and symbols
-* ✨ Find stylish and decorative text
-* 📋 Copy characters with one tap
-* 🔎 Easily find the characters you need
-* 📱 Simple and mobile-friendly interface
-* 🇮🇹 Designed for Italian users
-* ⚡ Fast and easy to use
-* 🆓 Free to use
+* 🔤 Ampia raccolta di caratteri speciali e simboli
+* ✨ Font e testi eleganti e decorativi
+* 📋 Copia i caratteri con un solo tocco
+* 🔎 Trova facilmente il carattere che stai cercando
+* 📱 Interfaccia semplice e ottimizzata per dispositivi mobili
+* 🇮🇹 Progettata per utenti italiani
+* ⚡ Veloce e facile da utilizzare
+* 🆓 Gratuita
 
-## 📱 Android App
+## 📱 App Android
 
-**Package name:** `it.caratterspeciali.app`
+**Nome del pacchetto:** `it.caratterspeciali.app`
 
-The Android app provides quick access to special characters and text tools directly from your mobile device.
+L'app Android offre un accesso rapido a caratteri speciali, simboli e strumenti di testo direttamente dal tuo dispositivo mobile.
 
-## 🖼️ Screenshots
+## 🖼️ Screenshot
 
-Add your app screenshots here:
+Aggiungi qui gli screenshot dell'app:
 
 ```text
 /screenshots/
@@ -39,22 +39,18 @@ Add your app screenshots here:
 
 ## 📥 Download
 
-Download the latest Android APK from the **[GitHub Releases](../../releases)** section.
+Scarica l'ultima versione dell'app Android dalla sezione **[GitHub Releases](../../releases)**.
 
-## 🌍 Website
+## 🔣 Simboli Speciali
 
-For the full collection of online tools and special characters, visit the **[official Caratteri Speciali website](https://caratterspeciali.it/)**.
+Scopri una raccolta di **[Simboli Speciali](https://caratterspeciali.it/simboli/)** da copiare e utilizzare nei social media, nei messaggi, nei profili e in altri contenuti digitali.
 
-## 🛠️ Technology
+## 🛠️ Tecnologia
 
 * Android
 * Kotlin / Java
 * Android SDK
 
-## 📄 License
+## 📄 Licenza
 
-See the repository license for details.
-
-## 📞 Contact
-
-For questions, suggestions, or feedback, please visit the **[Caratteri Speciali website](https://caratterspeciali.it/)**.
+Consulta la licenza del repository per maggiori informazioni.
