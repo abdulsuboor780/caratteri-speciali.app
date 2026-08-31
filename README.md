@@ -37,10 +37,6 @@ Aggiungi qui gli screenshot dell'app:
 └── symbols.png
 ```
 
-## 📥 Download
-
-Scarica l'ultima versione dell'app Android dalla sezione **[GitHub Releases](../../releases)**.
-
 ## 🔣 Simboli Speciali
 
 Scopri una raccolta di **[Simboli Speciali](https://caratterspeciali.it/simboli/)** da copiare e utilizzare nei social media, nei messaggi, nei profili e in altri contenuti digitali.
