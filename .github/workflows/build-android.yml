@@ -40,18 +40,37 @@ jobs:
           npx cap add android || true
           npx cap sync android
 
-      - name: Build Debug APK (For Phone Testing)
+      - name: Prepare Signing Keystore (Optional Secret Override)
+        run: |
+          if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
+            echo "Decoding release keystore from GitHub Secret..."
+            echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/app/release.jks
+          fi
+
+      - name: Build Debug APK (For Local Device Testing)
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
 
-      - name: Build Play Store Bundle AAB
+      - name: Build Signed Release APK & Play Store Bundle (AAB)
         run: |
           cd android
-          ./gradlew bundleRelease --no-daemon || ./gradlew bundleDebug --no-daemon
+          chmod +x gradlew
+          ./gradlew assembleRelease bundleRelease --no-daemon
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD || 'CaratteriSpeciali2026SecureKey!' }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS || 'caratteri_release' }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || 'CaratteriSpeciali2026SecureKey!' }}
 
-      - name: Upload Testing APK
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: CaratteriSpeciali-Release-APK
+          path: android/app/build/outputs/apk/release/app-release.apk
+          if-no-files-found: warn
+
+      - name: Upload Testing Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: CaratteriSpeciali-Testing-APK

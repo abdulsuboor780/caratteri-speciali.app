@@ -16,8 +16,29 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            def keystorePropsFile = rootProject.file("keystore.properties")
+            def keystoreProps = new Properties()
+            if (keystorePropsFile.exists()) {
+                keystoreProps.load(new FileInputStream(keystorePropsFile))
+            }
+
+            def envKeystorePath = System.getenv("ANDROID_KEYSTORE_PATH")
+            def propKeystorePath = keystoreProps['storeFile']
+            def keystoreFile = envKeystorePath ? file(envKeystorePath) : (propKeystorePath ? file(propKeystorePath) : file("release.jks"))
+
+            if (keystoreFile.exists()) {
+                storeFile keystoreFile
+                storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: (keystoreProps['storePassword'] ?: "CaratteriSpeciali2026SecureKey!")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS") ?: (keystoreProps['keyAlias'] ?: "caratteri_release")
+                keyPassword System.getenv("ANDROID_KEY_PASSWORD") ?: (keystoreProps['keyPassword'] ?: "CaratteriSpeciali2026SecureKey!")
+            }
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
