@@ -6,3 +6,14 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Android Release Keystores & Signing Credentials
+*.jks
+*.keystore
+*.p12
+*.pepk
+sign.zip
+keystore.properties
+!keystore.properties.example
+keystore-backup/
+

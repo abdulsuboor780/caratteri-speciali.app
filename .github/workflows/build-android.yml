@@ -40,7 +40,7 @@ jobs:
           npx cap add android || true
           npx cap sync android
 
-      - name: Prepare Signing Keystore (Optional Secret Override)
+      - name: Prepare Signing Keystore from GitHub Secret
         run: |
           if [ -n "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" ]; then
             echo "Decoding release keystore from GitHub Secret..."
@@ -59,9 +59,9 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleRelease bundleRelease --no-daemon
         env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD || 'CaratteriSpeciali2026SecureKey!' }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS || 'caratteri_release' }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD || 'CaratteriSpeciali2026SecureKey!' }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload Signed Release APK
         uses: actions/upload-artifact@v4

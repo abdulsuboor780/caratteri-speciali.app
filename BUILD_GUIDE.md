@@ -94,43 +94,57 @@ npx eas-cli build --platform android --profile preview
 - **Registrazione**: Gratuita su Samsung Developer Portal.
 
 ### 3. Huawei AppGallery
-- **Formato richiesto**: APK standard
-- **Registrazione**: Gratuita su Huawei Developer Console. L'app non usa Google Play Services proprietari ed è quindi compatibile al 100% con tutti i dispositivi Huawei e Honor.
+- **Formati supportati**: Android App Bundle (`.aab`) oppure APK (`.apk`)
+- **Firma dell'App**: AppGallery Connect supporta la gestione delle chiavi di firma. Con il **Metodo 2 (PEPK tool)** puoi caricare il pacchetto `sign.zip` generato dal tuo keystore `.jks`, garantendo la stessa identica firma crittografica del Google Play Store.
+- **Compatibilità**: L'applicazione non dipende da Google Play Services ed è compatibile al 100% con tutti i dispositivi Huawei (HMS).
 
 ---
 
 ## Chiave di Firma Release (Keystore .jks) e Sicurezza
 
-Il progetto include una chiave di firma crittografica sicura (Keystore RSA 2048-bit, validità 10.000 giorni fino al 2054) configurata in Gradle:
+Il progetto è configurato per l'uso di una chiave di firma crittografica sicura (Keystore RSA 2048-bit, validità fino al 2054):
 
-- **File Keystore**: `android/app/release.jks`
-- **File Configurazione**: `android/keystore.properties`
+- **File Keystore**: `android/app/release.jks` (e copia di backup in `keystore-backup/caratteri-release-backup.jks`)
+- **File Configurazione Locale**: `android/keystore.properties` (ignorato da Git via `.gitignore`)
+- **Template di Esempio**: `android/keystore.properties.example`
 - **Alias Chiave**: `caratteri_release`
-- **Password Keystore**: `CaratteriSpeciali2026SecureKey!`
-- **Password Chiave**: `CaratteriSpeciali2026SecureKey!`
 - **Impronta Digitale SHA-1**: `75:A6:E9:1A:E5:D7:73:7D:6F:FC:2A:39:97:92:3D:DF:26:C4:4B:15`
 - **Impronta Digitale SHA-256**: `69:EC:35:F8:FF:84:63:22:B9:4C:89:1B:98:42:A4:5B:33:A8:7D:E9:D3:A3:A8:D6:78:F6:62:05:DE:BE:AB:D2`
 
-### Come Eseguire il Backup Sicuro del Keystore
+### Configurazione delle Credenziali su GitHub Secrets
 
-> ⚠️ **IMPORTANTE**: Se perdi il file `.jks` o le relative password, **non potrai più rilasciare aggiornamenti dell'app sul Google Play Store** per la stessa applicazione.
+Per evitare di esporre chiavi private o password nel repository GitHub, il file `.github/workflows/build-android.yml` utilizza i seguenti **GitHub Secrets** (**Settings > Secrets and variables > Actions > New repository secret**):
 
-1. **Gestore di Password (Consigliato)**:
-   - Salva l'alias e la password su un gestore sicuro (es. Bitwarden, 1Password, KeePass).
-   - Carica il file binario `release.jks` come allegato sicuro protetto da crittografia end-to-end all'interno della stessa voce.
-2. **Copia Offline / Disco Esterno**:
-   - Copia il file `android/app/release.jks` su una chiavetta USB o hard disk esterno cifrato conservato offline.
-3. **Migrazione su GitHub Secrets (Opzionale per Massima Riservatezza)**:
-   Se desideri rimuovere il file `.jks` dal repository pubblico, puoi convertirlo in Base64:
-   ```bash
-   base64 -w 0 android/app/release.jks
-   ```
-   E aggiungere i seguenti Secret su GitHub (**Settings > Secrets and variables > Actions**):
-   - `ANDROID_KEYSTORE_BASE64`: La stringa Base64 del file `.jks`
-   - `ANDROID_KEYSTORE_PASSWORD`: `CaratteriSpeciali2026SecureKey!`
-   - `ANDROID_KEY_ALIAS`: `caratteri_release`
-   - `ANDROID_KEY_PASSWORD`: `CaratteriSpeciali2026SecureKey!`
-   Il workflow GitHub Actions `.github/workflows/build-android.yml` è già programmato per rilevare e decodificare automaticamente questi segreti se presenti!
+| Nome Secret | Descrizione |
+| :--- | :--- |
+| `ANDROID_KEYSTORE_BASE64` | Contenuto del keystore codificato in Base64 |
+| `ANDROID_KEYSTORE_PASSWORD` | Password di accesso al file keystore |
+| `ANDROID_KEY_ALIAS` | `caratteri_release` |
+| `ANDROID_KEY_PASSWORD` | Password specifica della chiave release |
+
+---
+
+## Generazione del file `sign.zip` per Huawei AppGallery (Metodo PEPK)
+
+Quando carichi un pacchetto `.aab` su **Huawei AppGallery Connect**:
+1. Vai su **AppGallery Connect** > La tua App > **Distribuzione** > **Firma dell'app**.
+2. Seleziona **Metodo 2: Esporta e carica chiave e certificato** (*Export and upload key and certificate*).
+3. Scarica lo strumento `pepk.jar` fornito direttamente nella pagina di Huawei e scarica la chiave pubblica di cifratura (es. `encryption_public_key.pem`).
+4. Posiziona `pepk.jar` e `encryption_public_key.pem` nella stessa cartella del file `release.jks` ed esegui il seguente comando nel terminale:
+
+```bash
+java -jar pepk.jar \
+  --keystore=release.jks \
+  --alias=caratteri_release \
+  --keystore-pass=<TUA_KEYSTORE_PASSWORD> \
+  --key-pass=<TUA_KEY_PASSWORD> \
+  --output=sign.zip \
+  --encryption-key-path=encryption_public_key.pem \
+  --include-cert
+```
+
+5. Carica il file `sign.zip` generato nella schermata del Metodo 2 di AppGallery Connect e conferma.
+6. Da questo momento in poi, puoi caricare sia l'App Bundle `.aab` sia l'APK Release firmato!
 
 ---
 
